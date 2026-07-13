@@ -35,20 +35,33 @@
 
 </a>
 
-<a
-    href="{{ url_for('delete_registration',
-    id=registration['registration_id']) }}"
-    class="btn btn-delete"
-    onclick="return confirmDelete();">
+<form
+    method="POST"
+    action="{{ url_for(
+        'delete_registration',
+        id=registration['registration_id']
+    ) }}"
+    class="inline-form"
+    onsubmit="return confirmDelete();">
 
-    Cancel Registration
+    <button
+        type="submit"
+        class="btn btn-delete">
 
-</a>
+        Cancel Registration
+
+    </button>
+
+</form>
 
 <br><br>
 
-<a href="/participants">
+<a
+    href="{{ url_for('participants') }}"
+    class="btn btn-back">
+
     &larr; Back to Participants
+
 </a>
 
 {% endblock %}

@@ -8,35 +8,40 @@
 
 <form method="POST">
 
-    <label for="name">Full Name</label><br>
+    <label for="name">Full Name</label>
+
     <input
         type="text"
         id="name"
         name="name"
+        minlength="2"
+        maxlength="100"
+        autocomplete="name"
         value="{{ registration['participant_name'] }}"
         required>
 
-    <br><br>
+    <label for="email">Email Address</label>
 
-    <label for="email">Email Address</label><br>
     <input
         type="email"
         id="email"
         name="email"
+        maxlength="100"
+        autocomplete="email"
         value="{{ registration['email'] }}"
         required>
 
-    <br><br>
+    <label for="phone">Phone Number</label>
 
-    <label for="phone">Phone Number</label><br>
     <input
-        type="text"
+        type="tel"
         id="phone"
         name="phone"
+        minlength="7"
+        maxlength="20"
+        autocomplete="tel"
         value="{{ registration['phone'] }}"
         required>
-
-    <br><br>
 
     <button
         type="submit"
@@ -50,8 +55,12 @@
 
 <br>
 
-<a href="/participants">
+<a
+    href="{{ url_for('participants') }}"
+    class="btn btn-back">
+
     &larr; Back to Participants
+
 </a>
 
 {% endblock %}

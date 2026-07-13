@@ -8,14 +8,40 @@
 
 <form method="POST">
 
-    <label for="name">Full Name</label><br>
-    <input type="text" id="name" name="name" required><br><br>
+    <label for="name">Full Name</label>
 
-    <label for="email">Email Address</label><br>
-    <input type="email" id="email" name="email" required><br><br>
+    <input
+        type="text"
+        id="name"
+        name="name"
+        value="{{ name | default('') }}"
+        minlength="2"
+        maxlength="100"
+        autocomplete="name"
+        required>
 
-    <label for="phone">Phone Number</label><br>
-    <input type="text" id="phone" name="phone" required><br><br>
+    <label for="email">Email Address</label>
+
+    <input
+        type="email"
+        id="email"
+        name="email"
+        value="{{ email | default('') }}"
+        maxlength="100"
+        autocomplete="email"
+        required>
+
+    <label for="phone">Phone Number</label>
+
+    <input
+        type="tel"
+        id="phone"
+        name="phone"
+        value="{{ phone | default('') }}"
+        minlength="7"
+        maxlength="20"
+        autocomplete="tel"
+        required>
 
     <button
         type="submit"

@@ -1,15 +1,17 @@
 from datetime import datetime
 
 from flask import (
-    abort,
     Flask,
+    abort,
     flash,
     redirect,
     render_template,
     request,
     url_for,
 )
+
 from database.db import get_db_connection
+
 
 app = Flask(__name__)
 
@@ -19,47 +21,101 @@ app.secret_key = "charity_event_secret_key"
 
 @app.route("/")
 def home():
+    # Open database
     connection = get_db_connection()
 
+    # Get event
     event = connection.execute(
-        "SELECT * FROM Event LIMIT 1"
+        """
+        SELECT *
+        FROM Event
+        LIMIT 1
+        """
     ).fetchone()
 
+    # Close database
     connection.close()
 
-    return render_template("index.html", event=event)
+    # Load page
+    return render_template(
+        "index.html",
+        event=event,
+    )
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        phone = request.form["phone"]
+        # Get form
+        name = request.form["name"].strip()
 
-        registration_date = datetime.now().strftime("%Y-%m-%d")
+        # Get email
+        email = request.form["email"].strip().lower()
 
-        connection = get_db_connection()
+        # Get phone
+        phone = request.form["phone"].strip()
 
-        # This project currently has one event, so registrations use event 1.
-        connection.execute(
-            """
-            INSERT INTO Registration
-            (participant_name, email, phone, registration_date, event_id)
+        # Check fields
+        if not name or not email or not phone:
+            # Show message
+            flash(
+                "Please complete all required fields.",
+                "error",
+            )
 
-            VALUES (?, ?, ?, ?, ?)
-            """,
-            (name, email, phone, registration_date, 1),
+            # Reload page
+            return render_template(
+                "register.html",
+                name=name,
+                email=email,
+                phone=phone,
+            )
+
+        # Create date
+        registration_date = datetime.now().strftime(
+            "%Y-%m-%d"
         )
 
+        # Open database
+        connection = get_db_connection()
+
+        # Save record
+        connection.execute(
+            """
+            INSERT INTO Registration (
+                participant_name,
+                email,
+                phone,
+                registration_date,
+                event_id
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (
+                name,
+                email,
+                phone,
+                registration_date,
+                1,
+            ),
+        )
+
+        # Save changes
         connection.commit()
+
+        # Close database
         connection.close()
 
         # Success message
-        flash("Registration completed successfully.", "success")
+        flash(
+            "Registration completed successfully.",
+            "success",
+        )
 
+        # Redirect page
         return redirect(url_for("participants"))
 
+    # Load page
     return render_template("register.html")
 
 
@@ -104,13 +160,9 @@ def registration_detail(id):
             Event.event_name,
             Event.event_date,
             Event.location
-
         FROM Registration
-
         JOIN Event
-
-        ON Registration.event_id = Event.event_id
-
+            ON Registration.event_id = Event.event_id
         WHERE Registration.registration_id = ?
         """,
         (id,),
@@ -136,25 +188,75 @@ def edit_registration(id):
     # Open database
     connection = get_db_connection()
 
+    # Get record
+    registration = connection.execute(
+        """
+        SELECT *
+        FROM Registration
+        WHERE registration_id = ?
+        """,
+        (id,),
+    ).fetchone()
+
+    # Check record
+    if registration is None:
+        # Close database
+        connection.close()
+
+        # Show error
+        abort(404)
+
     if request.method == "POST":
         # Get form
-        name = request.form["name"]
-        email = request.form["email"]
-        phone = request.form["phone"]
+        name = request.form["name"].strip()
+
+        # Get email
+        email = request.form["email"].strip().lower()
+
+        # Get phone
+        phone = request.form["phone"].strip()
+
+        # Check fields
+        if not name or not email or not phone:
+            # Close database
+            connection.close()
+
+            # Show message
+            flash(
+                "Please complete all required fields.",
+                "error",
+            )
+
+            # Keep values
+            form_data = {
+                "registration_id": id,
+                "participant_name": name,
+                "email": email,
+                "phone": phone,
+            }
+
+            # Reload page
+            return render_template(
+                "edit_registration.html",
+                registration=form_data,
+            )
 
         # Update record
         connection.execute(
             """
             UPDATE Registration
-
             SET
                 participant_name = ?,
                 email = ?,
                 phone = ?
-
             WHERE registration_id = ?
             """,
-            (name, email, phone, id),
+            (
+                name,
+                email,
+                phone,
+                id,
+            ),
         )
 
         # Save changes
@@ -164,30 +266,21 @@ def edit_registration(id):
         connection.close()
 
         # Success message
-        flash("Registration updated successfully.", "success")
+        flash(
+            "Registration updated successfully.",
+            "success",
+        )
 
         # Redirect page
-        return redirect(url_for("participants"))
-
-    # Get record
-    registration = connection.execute(
-        """
-        SELECT *
-
-        FROM Registration
-
-        WHERE registration_id = ?
-        """,
-        (id,),
-    ).fetchone()
+        return redirect(
+            url_for(
+                "registration_detail",
+                id=id,
+            )
+        )
 
     # Close database
     connection.close()
-
-    # Check record
-    if registration is None:
-        # Show error
-        abort(404)
 
     # Load page
     return render_template(
@@ -196,7 +289,7 @@ def edit_registration(id):
     )
 
 
-@app.route("/delete/<int:id>")
+@app.route("/delete/<int:id>", methods=["POST"])
 def delete_registration(id):
     # Open database
     connection = get_db_connection()
@@ -247,9 +340,7 @@ def delete_registration(id):
 @app.errorhandler(404)
 def page_not_found(error):
     # Load error
-    return render_template(
-        "404.html",
-    ), 404
+    return render_template("404.html"), 404
 
 
 if __name__ == "__main__":
