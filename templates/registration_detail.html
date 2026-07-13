@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Registration Details</h2>
+
+<p><strong>Participant Name:</strong> {{ registration["participant_name"] }}</p>
+
+<p><strong>Email:</strong> {{ registration["email"] }}</p>
+
+<p><strong>Phone:</strong> {{ registration["phone"] }}</p>
+
+<p><strong>Registration Date:</strong> {{ registration["registration_date"] }}</p>
+
+<hr>
+
+<h3>Event Information</h3>
+
+<p><strong>Event:</strong> {{ registration["event_name"] }}</p>
+
+<p><strong>Date:</strong> {{ registration["event_date"] }}</p>
+
+<p><strong>Location:</strong> {{ registration["location"] }}</p>
+
+<br>
+
+<a href="/edit/{{ registration['registration_id'] }}">
+    <button>Edit Registration</button>
+</a>
+
+<a href="/delete/{{ registration['registration_id'] }}">
+    <button>Cancel Registration</button>
+</a>
+
+<br><br>
+
+<a href="/participants">
+    ← Back to Participants
+</a>
+
+{% endblock %}

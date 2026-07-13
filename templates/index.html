@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ event["event_name"] }}</h2>
+
+<p><strong>Date:</strong> {{ event["event_date"] }}</p>
+
+<p><strong>Location:</strong> {{ event["location"] }}</p>
+
+<p>{{ event["description"] }}</p>
+
+<br>
+
+<a href="/register">
+    <button>Register Now</button>
+</a>
+
+{% endblock %}
