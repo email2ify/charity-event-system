@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Participants{% endblock %}
+
 {% block content %}
 
 <h2>Registered Participants</h2>
@@ -31,8 +33,13 @@
 
             <td>
 
-                <a href="/registration/{{ participant['registration_id'] }}">
+                <a
+                    href="{{ url_for('registration_detail',
+                    id=participant['registration_id']) }}"
+                    class="btn btn-view">
+
                     View
+
                 </a>
 
             </td>
@@ -47,8 +54,12 @@
 
 <br>
 
-<a href="/register">
-    <button>Register Another Participant</button>
+<a
+    href="{{ url_for('register') }}"
+    class="btn btn-register">
+
+    Register Another Participant
+
 </a>
 
 {% endblock %}

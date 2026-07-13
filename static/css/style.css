@@ -8,9 +8,11 @@ body {
 
 }
 
+/* Header */
+
 header {
 
-    background: #0b7285;
+    background-color: #0b7285;
 
     color: white;
 
@@ -18,13 +20,57 @@ header {
 
 }
 
+/* Page title */
+
+header h1 {
+
+    margin: 0 0 15px 0;
+
+}
+
+/* Navigation */
+
+nav {
+
+    display: flex;
+
+    gap: 15px;
+
+}
+
+/* Navigation links */
+
 nav a {
 
     color: white;
 
     text-decoration: none;
 
-    margin-right: 20px;
+    padding: 8px 14px;
+
+    border-radius: 5px;
+
+    transition: background-color 0.3s;
+
+}
+
+/* Hover effect */
+
+nav a:hover {
+
+    background-color: #0f8ca2;
+
+}
+
+/* Active page */
+
+nav a.active {
+
+    background-color: white;
+
+    color: #0b7285;
+
+    font-weight: bold;
 
 }
 
@@ -130,5 +176,167 @@ table tr:nth-child(even) {
 table tr:hover {
 
     background-color: #e8f4f8;
+
+}
+
+.flash-message {
+
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+
+}
+
+.flash-message.success {
+
+    background-color: #d1e7dd;
+
+    color: #0f5132;
+
+    border: 1px solid #badbcc;
+
+}
+
+/* Button base */
+
+.btn {
+
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: background-color 0.3s;
+
+}
+
+/* Register button */
+
+.btn-register {
+
+    background-color: #198754;
+
+}
+
+.btn-register:hover {
+
+    background-color: #157347;
+
+}
+
+/* View button */
+
+.btn-view {
+
+    background-color: #0d6efd;
+
+}
+
+.btn-view:hover {
+
+    background-color: #0b5ed7;
+
+}
+
+/* Edit button */
+
+.btn-edit {
+
+    background-color: #fd7e14;
+
+}
+
+.btn-edit:hover {
+
+    background-color: #e96b02;
+
+}
+
+/* Delete button */
+
+.btn-delete {
+
+    background-color: #dc3545;
+
+}
+
+.btn-delete:hover {
+
+    background-color: #bb2d3b;
+
+}
+
+/* Back button */
+
+.btn-back {
+
+    background-color: #6c757d;
+
+}
+
+.btn-back:hover {
+
+    background-color: #5c636a;
+
+}
+
+/* Table cells */
+
+table td {
+
+    vertical-align: middle;
+
+}
+
+/* Action column */
+
+table td:last-child {
+
+    width: 140px;
+
+}
+
+/* Form layout */
+
+form {
+
+    max-width: 600px;
+
+}
+
+/* Input fields */
+
+input {
+
+    border: 1px solid #ced4da;
+
+    border-radius: 5px;
+
+}
+
+/* Input focus */
+
+input:focus {
+
+    outline: none;
+
+    border-color: #0b7285;
+
+    box-shadow: 0 0 5px rgba(11,114,133,.3);
 
 }

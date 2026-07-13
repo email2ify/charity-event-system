@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Registration Details{% endblock %}
+
 {% block content %}
 
 <h2>Registration Details</h2>
@@ -24,18 +26,29 @@
 
 <br>
 
-<a href="/edit/{{ registration['registration_id'] }}">
-    <button>Edit Registration</button>
+<a
+    href="{{ url_for('edit_registration',
+    id=registration['registration_id']) }}"
+    class="btn btn-edit">
+
+    Edit Registration
+
 </a>
 
-<a href="/delete/{{ registration['registration_id'] }}">
-    <button>Cancel Registration</button>
+<a
+    href="{{ url_for('delete_registration',
+    id=registration['registration_id']) }}"
+    class="btn btn-delete"
+    onclick="return confirmDelete();">
+
+    Cancel Registration
+
 </a>
 
 <br><br>
 
 <a href="/participants">
-    ← Back to Participants
+    &larr; Back to Participants
 </a>
 
 {% endblock %}

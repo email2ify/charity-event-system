@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Edit Registration{% endblock %}
+
 {% block content %}
 
 <h2>Edit Registration</h2>
@@ -36,8 +38,12 @@
 
     <br><br>
 
-    <button type="submit">
+    <button
+        type="submit"
+        class="btn btn-edit">
+
         Update Registration
+
     </button>
 
 </form>
@@ -45,7 +51,7 @@
 <br>
 
 <a href="/participants">
-    ← Back to Participants
+    &larr; Back to Participants
 </a>
 
 {% endblock %}

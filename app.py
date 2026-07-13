@@ -1,9 +1,20 @@
 from datetime import datetime
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import (
+    abort,
+    Flask,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from database.db import get_db_connection
 
 app = Flask(__name__)
+
+# App security
+app.secret_key = "charity_event_secret_key"
 
 
 @app.route("/")
@@ -43,6 +54,9 @@ def register():
 
         connection.commit()
         connection.close()
+
+        # Success message
+        flash("Registration completed successfully.", "success")
 
         return redirect(url_for("participants"))
 
@@ -105,6 +119,11 @@ def registration_detail(id):
     # Close database
     connection.close()
 
+    # Check record
+    if registration is None:
+        # Show error
+        abort(404)
+
     # Load page
     return render_template(
         "registration_detail.html",
@@ -144,6 +163,9 @@ def edit_registration(id):
         # Close database
         connection.close()
 
+        # Success message
+        flash("Registration updated successfully.", "success")
+
         # Redirect page
         return redirect(url_for("participants"))
 
@@ -162,11 +184,72 @@ def edit_registration(id):
     # Close database
     connection.close()
 
+    # Check record
+    if registration is None:
+        # Show error
+        abort(404)
+
     # Load page
     return render_template(
         "edit_registration.html",
         registration=registration,
     )
+
+
+@app.route("/delete/<int:id>")
+def delete_registration(id):
+    # Open database
+    connection = get_db_connection()
+
+    # Get record
+    registration = connection.execute(
+        """
+        SELECT *
+        FROM Registration
+        WHERE registration_id = ?
+        """,
+        (id,),
+    ).fetchone()
+
+    # Check record
+    if registration is None:
+        # Close database
+        connection.close()
+
+        # Show error
+        abort(404)
+
+    # Delete record
+    connection.execute(
+        """
+        DELETE FROM Registration
+        WHERE registration_id = ?
+        """,
+        (id,),
+    )
+
+    # Save changes
+    connection.commit()
+
+    # Close database
+    connection.close()
+
+    # Success message
+    flash(
+        "Registration cancelled successfully.",
+        "success",
+    )
+
+    # Redirect page
+    return redirect(url_for("participants"))
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    # Load error
+    return render_template(
+        "404.html",
+    ), 404
 
 
 if __name__ == "__main__":
