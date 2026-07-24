@@ -1,0 +1,10 @@
+{
+  "name": "charity-event-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Flask charity event registration app",
+  "scripts": {
+    "setup": "venv\\Scripts\\python.exe -m pip install -r requirements.txt && venv\\Scripts\\python.exe database/init_db.py",
+    "start": "venv\\Scripts\\python.exe app.py"
+  }
+}
