@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Registration{% endblock %}
+
+{% block content %}
+
+<h2>Edit Registration</h2>
+
+<form method="POST">
+
+    <label for="name">Full Name</label>
+
+    <input
+        type="text"
+        id="name"
+        name="name"
+        minlength="2"
+        maxlength="100"
+        autocomplete="name"
+        value="{{ registration['participant_name'] }}"
+        required>
+
+    <label for="email">Email Address</label>
+
+    <input
+        type="email"
+        id="email"
+        name="email"
+        maxlength="100"
+        autocomplete="email"
+        value="{{ registration['email'] }}"
+        required>
+
+    <label for="phone">Phone Number</label>
+
+    <input
+        type="tel"
+        id="phone"
+        name="phone"
+        minlength="7"
+        maxlength="20"
+        autocomplete="tel"
+        value="{{ registration['phone'] }}"
+        required>
+
+    <button
+        type="submit"
+        class="btn btn-edit">
+
+        Update Registration
+
+    </button>
+
+</form>
+
+<br>
+
+<a
+    href="{{ url_for('participants') }}"
+    class="btn btn-back">
+
+    &larr; Back to Participants
+
+</a>
+
+{% endblock %}

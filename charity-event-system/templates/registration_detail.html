@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Registration Details{% endblock %}
+
+{% block content %}
+
+<h2>Registration Details</h2>
+
+<p><strong>Participant Name:</strong> {{ registration["participant_name"] }}</p>
+
+<p><strong>Email:</strong> {{ registration["email"] }}</p>
+
+<p><strong>Phone:</strong> {{ registration["phone"] }}</p>
+
+<p><strong>Registration Date:</strong> {{ registration["registration_date"] }}</p>
+
+<hr>
+
+<h3>Event Information</h3>
+
+<p><strong>Event:</strong> {{ registration["event_name"] }}</p>
+
+<p><strong>Date:</strong> {{ registration["event_date"] }}</p>
+
+<p><strong>Location:</strong> {{ registration["location"] }}</p>
+
+<br>
+
+<a
+    href="{{ url_for('edit_registration',
+    id=registration['registration_id']) }}"
+    class="btn btn-edit">
+
+    Edit Registration
+
+</a>
+
+<form
+    method="POST"
+    action="{{ url_for(
+        'delete_registration',
+        id=registration['registration_id']
+    ) }}"
+    class="inline-form"
+    onsubmit="return confirmDelete();">
+
+    <button
+        type="submit"
+        class="btn btn-delete">
+
+        Cancel Registration
+
+    </button>
+
+</form>
+
+<br><br>
+
+<a
+    href="{{ url_for('participants') }}"
+    class="btn btn-back">
+
+    &larr; Back to Participants
+
+</a>
+
+{% endblock %}
