@@ -6,5 +6,9 @@
   "scripts": {
     "setup": "venv\\Scripts\\python.exe -m pip install -r requirements.txt && venv\\Scripts\\python.exe database/init_db.py",
     "start": "venv\\Scripts\\python.exe app.py"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.0",
+    "@types/node": "^26.1.1"
   }
 }
